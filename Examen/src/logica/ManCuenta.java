@@ -49,9 +49,22 @@ public class ManCuenta {
     public Cuenta RetiroCuenta(Cuenta cuenta, double retiro) {
         Cuenta objAux = new Cuenta();
         objAux = cuenta;
-        double aux = objAux.getSaldo();
-        aux = aux - retiro;
-        objAux.setSaldo(aux);
+        if (objAux.getTipo()==1) {
+            double aux = objAux.getSaldo();
+            aux = aux - retiro;
+            if (aux < 20) {
+                aux = 20;
+            }
+            objAux.setSaldo(aux);
+        }
+        if (objAux.getTipo()==2) {
+            double aux = objAux.getSaldo();
+            aux = aux - retiro;
+            if (aux < 50) {
+                aux = 50;
+            }
+            objAux.setSaldo(aux);
+        }
         return objAux;
     }
 

@@ -45,6 +45,7 @@ public class Retiro extends javax.swing.JFrame {
     ArrayList<Cajero> ArrayCajeros = new ArrayList<Cajero>();
     ArrayList<Transaccion> ArrayTransacciones = new ArrayList<Transaccion>();
     Cuenta objCue = new Cuenta();
+    Cuenta objAux = new Cuenta();
     Cliente objCli = new Cliente();
     Cajero objCaj = new Cajero();
     Transaccion objTra = new Transaccion();
@@ -290,6 +291,7 @@ public class Retiro extends javax.swing.JFrame {
             if (objCue.getNumero().equals(jnumCue.getText())) {
                 this.jbutVal.setEnabled(true);
                 this.jnumCed.setEnabled(true);
+                objAux = objCue;
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "Cuenta no existe");
@@ -316,31 +318,33 @@ public class Retiro extends javax.swing.JFrame {
 
     private void jbutAceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutAceActionPerformed
         // TODO add your handling code here:
-        Cuenta objAux = new Cuenta();
-        objAux = objCue;
         objCue = objManCue.RetiroCuenta(objCue, Double.parseDouble(jvalRet.getText()));
         try {
-            boolean aux = objManCue.ComprobarSaldo(objCue);
-            if (aux == true) {
-                objTra = objManTra.CrearTransaccion(objCli, objCaj, objCue, ArrayTransacciones);
-                this.jnumTra.setText(String.valueOf(objTra.getId_transaccion()));
-                ArrayTransacciones.add(objTra);
-                ArrayCuentas.set(ArrayCuentas.indexOf(objCue), objCue);
-                JOptionPane.showMessageDialog(rootPane, "Retiro exitoso de " + jvalRet.getText());
-                try {
-                    objManTra.GuardaTransaccion(ArrayTransacciones);
-                    objManCue.GuardarCuenta(ArrayCuentas);
-                } catch (IOException ex) {
-                    Logger.getLogger(Retiro.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Saldo insuficiente");
-                objCue = objAux;
+            objTra = objManTra.CrearTransaccion(objCli, objCaj, objCue, ArrayTransacciones);
+            this.jnumTra.setText(String.valueOf(objTra.getId_transaccion()));
+            ArrayTransacciones.add(objTra);
+            ArrayCuentas.set(ArrayCuentas.indexOf(objCue), objCue);
+            JOptionPane.showMessageDialog(rootPane, "Retiro exitoso de " + (objAux.getSaldo()-Double.parseDouble(jvalRet.getText())));
+            try {
+                objManTra.GuardaTransaccion(ArrayTransacciones);
+                objManCue.GuardarCuenta(ArrayCuentas);
+            } catch (IOException ex) {
+                Logger.getLogger(Retiro.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(rootPane, "Ingrese una cantidad");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Saldo insuficiente");
+            objCue = objAux;
+            this.jvalRet.setText(null);
         } finally {
-
+            this.jnumCue.setText("");
+            this.jnumCed.setText("");
+            this.jnumCed.setEnabled(false);
+            this.jbutVal.setEnabled(false);
+            this.jvalRet.setText("");
+            this.jvalRet.setEnabled(false);
+            this.jbutAce.setEnabled(false);
         }
     }//GEN-LAST:event_jbutAceActionPerformed
 
