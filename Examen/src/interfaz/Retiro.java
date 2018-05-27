@@ -48,9 +48,10 @@ public class Retiro extends javax.swing.JFrame {
     Cliente objCli = new Cliente();
     Cajero objCaj = new Cajero();
     Transaccion objTra = new Transaccion();
+
     public Retiro() {
         initComponents();
-           ArrayClientes = objImpCli.ImportarClientes();
+        ArrayClientes = objImpCli.ImportarClientes();
         ArrayCuentas = objImpCue.ImportarCuentas();
         ArrayCajeros = objImpCaj.ImportarCajeros();
         ArrayTransacciones = objImpTra.ImportarTransaccion();
@@ -290,53 +291,56 @@ public class Retiro extends javax.swing.JFrame {
                 this.jbutVal.setEnabled(true);
                 this.jnumCed.setEnabled(true);
             }
-        }
-        catch (Exception e){
-            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Cuenta no existe");
+            this.jbutVal.setEnabled(false);
+            this.jnumCed.setEnabled(false);
         }
     }//GEN-LAST:event_jbutComActionPerformed
 
     private void jbutValActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutValActionPerformed
         // TODO add your handling code here:
         objCli = objManCli.BuscarCliente(ArrayClientes, jnumCed.getText());
-        try{
+        try {
             if (objCli.getCedula().equals(jnumCed.getText())) {
                 this.jvalRet.setEnabled(true);
                 this.jbutAce.setEnabled(true);
             }
-        }
-        catch (Exception e){
-            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "No es el titular de la cuenta");
+            this.jnumCue.setText("");
+            this.jnumCed.setText("");
+            this.jbutVal.setEnabled(false);
         }
     }//GEN-LAST:event_jbutValActionPerformed
 
     private void jbutAceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutAceActionPerformed
         // TODO add your handling code here:
-        try{
-            boolean aux = false;
-            Cuenta objAux = new Cuenta();
-            objAux = objCue;
-            objCue = objManCue.RetiroCuenta(objCue, Double.parseDouble(jvalRet.getText()));
-            if (objCue.getSaldo()!= objAux.getSaldo()) {
-                JOptionPane.showMessageDialog(rootPane, "Saldo Menor al Minimo\n"
-                        + "Ingrese valor a retirar nuevamenete");
-                aux = true;
-            }
-            if (aux = true) {
+        Cuenta objAux = new Cuenta();
+        objAux = objCue;
+        objCue = objManCue.RetiroCuenta(objCue, Double.parseDouble(jvalRet.getText()));
+        try {
+            boolean aux = objManCue.ComprobarSaldo(objCue);
+            if (aux == true) {
                 objTra = objManTra.CrearTransaccion(objCli, objCaj, objCue, ArrayTransacciones);
+                this.jnumTra.setText(String.valueOf(objTra.getId_transaccion()));
+                ArrayTransacciones.add(objTra);
+                ArrayCuentas.set(ArrayCuentas.indexOf(objCue), objCue);
+                JOptionPane.showMessageDialog(rootPane, "Retiro exitoso de " + jvalRet.getText());
+                try {
+                    objManTra.GuardaTransaccion(ArrayTransacciones);
+                    objManCue.GuardarCuenta(ArrayCuentas);
+                } catch (IOException ex) {
+                    Logger.getLogger(Retiro.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Saldo insuficiente");
+                objCue = objAux;
             }
-            this.jnumTra.setText(String.valueOf(objTra.getId_transaccion()));
-            ArrayTransacciones.add(objTra);
-            ArrayCuentas.set(ArrayCuentas.indexOf(objCue), objCue);
-            try{
-                objManTra.GuardaTransaccion(ArrayTransacciones);
-                objManCue.GuardarCuenta(ArrayCuentas);
-            } catch (IOException ex) {
-                Logger.getLogger(Retiro.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        catch (NumberFormatException e){
-            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(rootPane, "Ingrese una cantidad");
+        } finally {
+
         }
     }//GEN-LAST:event_jbutAceActionPerformed
 
