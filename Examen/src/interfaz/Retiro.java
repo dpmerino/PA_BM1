@@ -5,6 +5,24 @@
  */
 package interfaz;
 
+import clases.Cajero;
+import clases.Cliente;
+import clases.Cuenta;
+import clases.Transaccion;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import logica.Imp_Caj;
+import logica.Imp_Cli;
+import logica.Imp_Cuentas;
+import logica.Imp_Tra;
+import logica.ManCajero;
+import logica.ManCliente;
+import logica.ManCuenta;
+import logica.ManTransaccion;
+
 /**
  *
  * @author diegomerino
@@ -14,8 +32,33 @@ public class Retiro extends javax.swing.JFrame {
     /**
      * Creates new form Retiro
      */
+    Imp_Cli objImpCli = new Imp_Cli();
+    Imp_Cuentas objImpCue = new Imp_Cuentas();
+    Imp_Caj objImpCaj = new Imp_Caj();
+    Imp_Tra objImpTra = new Imp_Tra();
+    ManCajero objManCaj = new ManCajero();
+    ManCliente objManCli = new ManCliente();
+    ManCuenta objManCue = new ManCuenta();
+    ManTransaccion objManTra = new ManTransaccion();
+    ArrayList<Cliente> ArrayClientes = new ArrayList<Cliente>();
+    ArrayList<Cuenta> ArrayCuentas = new ArrayList<Cuenta>();
+    ArrayList<Cajero> ArrayCajeros = new ArrayList<Cajero>();
+    ArrayList<Transaccion> ArrayTransacciones = new ArrayList<Transaccion>();
+    Cuenta objCue = new Cuenta();
+    Cliente objCli = new Cliente();
+    Cajero objCaj = new Cajero();
+    Transaccion objTra = new Transaccion();
     public Retiro() {
         initComponents();
+           ArrayClientes = objImpCli.ImportarClientes();
+        ArrayCuentas = objImpCue.ImportarCuentas();
+        ArrayCajeros = objImpCaj.ImportarCajeros();
+        ArrayTransacciones = objImpTra.ImportarTransaccion();
+        setTitle("Retiro");
+        objCaj = objManCaj.BuscarCajero(ArrayCajeros, "987");
+        this.jcajID.setText(objCaj.getId_cajero());
+        this.jcajNom.setText(objCaj.getNombre());
+        this.jcajApe.setText(objCaj.getApellido());
     }
 
     /**
@@ -33,10 +76,26 @@ public class Retiro extends javax.swing.JFrame {
         jnumCed = new javax.swing.JTextField();
         jbutVal = new javax.swing.JButton();
         jnumCue = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jvalRet = new javax.swing.JTextField();
+        jbutAce = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jnumTra = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jcajNom = new javax.swing.JTextField();
+        jcajApe = new javax.swing.JTextField();
+        jcajID = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jbutCom.setText("Comprobar");
+        jbutCom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbutComActionPerformed(evt);
+            }
+        });
 
         jtextCed.setText("# de cédula");
 
@@ -49,36 +108,131 @@ public class Retiro extends javax.swing.JFrame {
 
         jbutVal.setText("Validar");
         jbutVal.setEnabled(false);
+        jbutVal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbutValActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jnumCed, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jtextCed)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jbutVal)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(jtextCed)
+                    .addComponent(jnumCed, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbutVal))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jtextCed)
-                .addGap(18, 18, 18)
-                .addComponent(jnumCed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jnumCed, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
                 .addComponent(jbutVal)
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jnumCue.setText("# de cuenta");
+
+        jLabel1.setText("Valor a Retirar");
+
+        jvalRet.setEnabled(false);
+
+        jbutAce.setText("Aceptar");
+        jbutAce.setEnabled(false);
+        jbutAce.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbutAceActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jvalRet))
+                .addGap(18, 18, 18)
+                .addComponent(jbutAce)
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jvalRet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jbutAce)))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+
+        jLabel2.setText("Transacción #: ");
+
+        jnumTra.setEnabled(false);
+        jnumTra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jnumTraActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Atendito por: ");
+
+        jcajNom.setEnabled(false);
+
+        jcajApe.setEnabled(false);
+
+        jcajID.setEnabled(false);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(29, 29, 29)
+                        .addComponent(jnumTra, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(28, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcajNom, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcajApe, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcajID))))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jnumTra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jcajNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcajApe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcajID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,12 +241,19 @@ public class Retiro extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jnumCue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbutCom)))
-                .addContainerGap(196, Short.MAX_VALUE))
+                        .addComponent(jbutCom))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(23, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,8 +263,12 @@ public class Retiro extends javax.swing.JFrame {
                     .addComponent(jbutCom)
                     .addComponent(jnumCue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -112,6 +277,68 @@ public class Retiro extends javax.swing.JFrame {
     private void jnumCedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jnumCedActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jnumCedActionPerformed
+
+    private void jnumTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jnumTraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jnumTraActionPerformed
+
+    private void jbutComActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutComActionPerformed
+        // TODO add your handling code here:
+        objCue = objManCue.BuscarCuenta(ArrayCuentas, jnumCue.getText());
+        try {
+            if (objCue.getNumero().equals(jnumCue.getText())) {
+                this.jbutVal.setEnabled(true);
+                this.jnumCed.setEnabled(true);
+            }
+        }
+        catch (Exception e){
+            
+        }
+    }//GEN-LAST:event_jbutComActionPerformed
+
+    private void jbutValActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutValActionPerformed
+        // TODO add your handling code here:
+        objCli = objManCli.BuscarCliente(ArrayClientes, jnumCed.getText());
+        try{
+            if (objCli.getCedula().equals(jnumCed.getText())) {
+                this.jvalRet.setEnabled(true);
+                this.jbutAce.setEnabled(true);
+            }
+        }
+        catch (Exception e){
+            
+        }
+    }//GEN-LAST:event_jbutValActionPerformed
+
+    private void jbutAceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutAceActionPerformed
+        // TODO add your handling code here:
+        try{
+            boolean aux = false;
+            Cuenta objAux = new Cuenta();
+            objAux = objCue;
+            objCue = objManCue.RetiroCuenta(objCue, Double.parseDouble(jvalRet.getText()));
+            if (objCue.getSaldo()!= objAux.getSaldo()) {
+                JOptionPane.showMessageDialog(rootPane, "Saldo Menor al Minimo\n"
+                        + "Ingrese valor a retirar nuevamenete");
+                aux = true;
+            }
+            if (aux = true) {
+                objTra = objManTra.CrearTransaccion(objCli, objCaj, objCue, ArrayTransacciones);
+            }
+            this.jnumTra.setText(String.valueOf(objTra.getId_transaccion()));
+            ArrayTransacciones.add(objTra);
+            ArrayCuentas.set(ArrayCuentas.indexOf(objCue), objCue);
+            try{
+                objManTra.GuardaTransaccion(ArrayTransacciones);
+                objManCue.GuardarCuenta(ArrayCuentas);
+            } catch (IOException ex) {
+                Logger.getLogger(Retiro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        catch (NumberFormatException e){
+            
+        }
+    }//GEN-LAST:event_jbutAceActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,11 +376,22 @@ public class Retiro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton jbutAce;
     private javax.swing.JButton jbutCom;
     private javax.swing.JButton jbutVal;
+    private javax.swing.JTextField jcajApe;
+    private javax.swing.JTextField jcajID;
+    private javax.swing.JTextField jcajNom;
     private javax.swing.JTextField jnumCed;
     private javax.swing.JTextField jnumCue;
+    private javax.swing.JTextField jnumTra;
     private javax.swing.JLabel jtextCed;
+    private javax.swing.JTextField jvalRet;
     // End of variables declaration//GEN-END:variables
 }

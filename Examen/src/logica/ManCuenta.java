@@ -45,9 +45,22 @@ public class ManCuenta {
     public Cuenta RetiroCuenta (Cuenta cuenta, double retiro){
         Cuenta objAux = new Cuenta();
         objAux = cuenta;
-        double aux = objAux.getSaldo();
-        aux = aux-retiro;
-        objAux.setSaldo(aux);
+        if (objAux.getTipo()==1) {
+            double aux = objAux.getSaldo();
+            aux = aux - retiro;
+            objAux.setSaldo(aux);
+            if (objAux.getSaldo()<20) {
+                objAux = cuenta;
+            }
+        }
+        if (objAux.getTipo()==2) {
+            double aux = objAux.getSaldo();
+            aux = aux - retiro;
+            objAux.setSaldo(aux);
+            if (objAux.getSaldo()<50) {
+                objAux = cuenta;
+            }
+        }
         return objAux;
     }
     public static void GuardarCuenta (ArrayList<Cuenta> ArrayCuentas) throws IOException{
