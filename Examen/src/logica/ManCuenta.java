@@ -42,6 +42,14 @@ public class ManCuenta {
         objAux.setSaldo(aux);
         return objAux;
     }
+    public Cuenta RetiroCuenta (Cuenta cuenta, double retiro){
+        Cuenta objAux = new Cuenta();
+        objAux = cuenta;
+        double aux = objAux.getSaldo();
+        aux = aux-retiro;
+        objAux.setSaldo(aux);
+        return objAux;
+    }
     public static void GuardarCuenta (ArrayList<Cuenta> ArrayCuentas) throws IOException{
         File f = new File("Archivos/cuentas.txt");
         FileWriter fw = new FileWriter(f,false);
