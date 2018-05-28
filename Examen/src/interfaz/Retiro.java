@@ -57,7 +57,7 @@ public class Retiro extends javax.swing.JFrame {
         ArrayCajeros = objImpCaj.ImportarCajeros();
         ArrayTransacciones = objImpTra.ImportarTransaccion();
         setTitle("Retiro");
-        objCaj = objManCaj.BuscarCajero(ArrayCajeros, "987");
+        objCaj = objManCaj.BuscarCajero(ArrayCajeros, "456");
         this.jcajID.setText(objCaj.getId_cajero());
         this.jcajNom.setText(objCaj.getNombre());
         this.jcajApe.setText(objCaj.getApellido());
@@ -141,6 +141,16 @@ public class Retiro extends javax.swing.JFrame {
         );
 
         jnumCue.setText("# de cuenta");
+        jnumCue.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jnumCueMouseClicked(evt);
+            }
+        });
+        jnumCue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jnumCueActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Valor a Retirar");
 
@@ -286,12 +296,12 @@ public class Retiro extends javax.swing.JFrame {
 
     private void jbutComActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutComActionPerformed
         // TODO add your handling code here:
-        objCue = objManCue.BuscarCuenta(ArrayCuentas, jnumCue.getText());
+        this.objCue = objManCue.BuscarCuenta(ArrayCuentas, jnumCue.getText());
+        this.objAux = objManCue.BuscarCuenta(ArrayCuentas, jnumCue.getText());
         try {
             if (objCue.getNumero().equals(jnumCue.getText())) {
                 this.jbutVal.setEnabled(true);
                 this.jnumCed.setEnabled(true);
-                objAux = objCue;
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "Cuenta no existe");
@@ -318,13 +328,16 @@ public class Retiro extends javax.swing.JFrame {
 
     private void jbutAceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutAceActionPerformed
         // TODO add your handling code here:
+        double saldo= objAux.getSaldo();
         objCue = objManCue.RetiroCuenta(objCue, Double.parseDouble(jvalRet.getText()));
         try {
             objTra = objManTra.CrearTransaccion(objCli, objCaj, objCue, ArrayTransacciones);
             this.jnumTra.setText(String.valueOf(objTra.getId_transaccion()));
             ArrayTransacciones.add(objTra);
             ArrayCuentas.set(ArrayCuentas.indexOf(objCue), objCue);
-            JOptionPane.showMessageDialog(rootPane, "Retiro exitoso de " + (objAux.getSaldo()-Double.parseDouble(jvalRet.getText())));
+            System.out.println(objAux.getSaldo()+"\n");
+            System.out.println(objCue.getSaldo());
+            JOptionPane.showMessageDialog(rootPane, "Retiro exitoso de " + (saldo-objCue.getSaldo()));
             try {
                 objManTra.GuardaTransaccion(ArrayTransacciones);
                 objManCue.GuardarCuenta(ArrayCuentas);
@@ -333,10 +346,6 @@ public class Retiro extends javax.swing.JFrame {
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(rootPane, "Ingrese una cantidad");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Saldo insuficiente");
-            objCue = objAux;
-            this.jvalRet.setText(null);
         } finally {
             this.jnumCue.setText("");
             this.jnumCed.setText("");
@@ -348,6 +357,15 @@ public class Retiro extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbutAceActionPerformed
 
+    private void jnumCueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jnumCueActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jnumCueActionPerformed
+
+    private void jnumCueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jnumCueMouseClicked
+        // TODO add your handling code here:                                     
+        this.jnumCue.setText("");
+    }//GEN-LAST:event_jnumCueMouseClicked
+    
     /**
      * @param args the command line arguments
      */

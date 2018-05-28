@@ -134,6 +134,10 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="# de cuenta"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jnumCueMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jnumCueActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel2">
 

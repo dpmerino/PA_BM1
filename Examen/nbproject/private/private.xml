@@ -3,19 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Z:/PA_DPMA/Examen/src/logica/Imp_Cli.java</file>
-            <file>file:/Z:/PA_DPMA/Examen/src/clases/Transaccion.java</file>
-            <file>file:/Z:/PA_DPMA/Examen/src/logica/Imp_Cuentas.java</file>
-            <file>file:/Z:/PA_DPMA/Examen/src/interfaz/Examen.java</file>
-            <file>file:/Z:/PA_DPMA/Examen/src/logica/ManCuenta.java</file>
-            <file>file:/Z:/PA_DPMA/Examen/src/clases/Cajero.java</file>
-            <file>file:/Z:/PA_DPMA/Examen/src/interfaz/Deposito.java</file>
-            <file>file:/Z:/PA_DPMA/Examen/src/logica/ManCajero.java</file>
-            <file>file:/Z:/PA_DPMA/Examen/src/clases/Cuenta.java</file>
-            <file>file:/Z:/PA_DPMA/Examen/src/logica/ManCliente.java</file>
-            <file>file:/Z:/PA_DPMA/Examen/src/logica/ManTransaccion.java</file>
-            <file>file:/Z:/PA_DPMA/Examen/src/clases/Cliente.java</file>
-            <file>file:/Z:/PA_DPMA/Examen/src/logica/Imp_Caj.java</file>
+            <file>file:/Users/diegomerino/Documents/UTPL/Programacion_Avanzada/PA_BM1/Examen/src/logica/Imp_Tra.java</file>
+            <file>file:/Users/diegomerino/Documents/UTPL/Programacion_Avanzada/PA_BM1/Examen/src/interfaz/Examen.java</file>
+            <file>file:/Users/diegomerino/Documents/UTPL/Programacion_Avanzada/PA_BM1/Examen/src/logica/ManCuenta.java</file>
+            <file>file:/Users/diegomerino/Documents/UTPL/Programacion_Avanzada/PA_BM1/Examen/src/interfaz/Retiro.java</file>
+            <file>file:/Users/diegomerino/Documents/UTPL/Programacion_Avanzada/PA_BM1/Examen/src/clases/Transaccion.java</file>
+            <file>file:/Users/diegomerino/Documents/UTPL/Programacion_Avanzada/PA_BM1/Examen/src/logica/ManTransaccion.java</file>
+            <file>file:/Users/diegomerino/Documents/UTPL/Programacion_Avanzada/PA_BM1/Examen/src/interfaz/Deposito.java</file>
         </group>
     </open-files>
 </project-private>
