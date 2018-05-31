@@ -16,7 +16,7 @@ public class Cuenta {
     int tipo; //1 para cuenta ahorros y 2 para cuenta corriente
     double saldo;
     Cliente cliente;
-    Transaccion trancsacciones;
+    Transaccion transacciones;
 
     public String getNumero() {
         return numero;
@@ -51,11 +51,11 @@ public class Cuenta {
     }
 
     public Transaccion getTrancsacciones() {
-        return trancsacciones;
+        return transacciones;
     }
 
     public void setTrancsacciones(Transaccion trancsacciones) {
-        this.trancsacciones = trancsacciones;
+        this.transacciones = trancsacciones;
     }
 
     public Cuenta() {
@@ -68,17 +68,16 @@ public class Cuenta {
         this.cliente = cliente;
     }
 
-    public Cuenta(String numero, int tipo, double saldo, Cliente cliente, Transaccion trancsacciones) {
+    public Cuenta(String numero, int tipo, double saldo, Cliente cliente, Transaccion transacciones) {
         this.numero = numero;
         this.tipo = tipo;
         this.saldo = saldo;
         this.cliente = cliente;
-        this.trancsacciones = trancsacciones;
+        this.transacciones = transacciones;
     }
-
     @Override
     public String toString() {
-        return "Cuenta{" + "numero=" + numero + ", tipo=" + tipo + ", saldo=" + saldo + ", cliente=" + cliente + ", trancsacciones=" + trancsacciones + '}';
+        return "Cuenta{" + "numero=" + numero + ", tipo=" + tipo + ", saldo=" + saldo + ", cliente=" + cliente + ", trancsacciones=" + transacciones + '}';
     }
     
 }

@@ -36,7 +36,10 @@ public class ManCuenta {
         }
         return objAux; //RETORNARA UN objeto VACIO EN EL CASO DE NO EXISTIR
     }
-
+    public Cuenta AnhiadirPropietarios (Cuenta cuenta, Cliente cliente){
+        
+        return cuenta;
+    }
     public Cuenta DepositoCuenta(Cuenta cuenta, double deposito) {
         Cuenta objAux = new Cuenta();
         objAux = cuenta;
