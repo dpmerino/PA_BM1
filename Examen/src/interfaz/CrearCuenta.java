@@ -5,17 +5,36 @@
  */
 package interfaz;
 
+import clases.Cliente;
+import clases.Cuenta;
+import java.util.ArrayList;
+import logica.Imp_Cli;
+import logica.Imp_Cuentas;
+import logica.ManCliente;
+import logica.ManCuenta;
+
 /**
  *
  * @author diegomerino
  */
 public class CrearCuenta extends javax.swing.JFrame {
-
+    Imp_Cli objImpCli = new Imp_Cli();
+    Imp_Cuentas objImpCue = new Imp_Cuentas();
+    ManCliente objManCli = new ManCliente();
+    ManCuenta objManCue = new ManCuenta();
+    Cliente objCli = new Cliente();
+    Cuenta objCue = new Cuenta();
+    ArrayList<Cuenta> ArrayCuentas = new ArrayList<Cuenta>();
+    ArrayList<Cliente> ArrayClientes = new ArrayList<Cliente>();
+    
     /**
      * Creates new form CrearCuenta
      */
     public CrearCuenta() {
+      ArrayClientes = objImpCli.ImportarClientes();
+      ArrayCuentas = objImpCue.ImportarCuentas();
         initComponents();
+        
     }
 
     /**
@@ -30,12 +49,12 @@ public class CrearCuenta extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        jCueCed = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jCueTipo = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jCueDep = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -63,12 +82,12 @@ public class CrearCuenta extends javax.swing.JFrame {
         });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, 20));
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jCueCed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jCueCedActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 100, -1));
+        jPanel1.add(jCueCed, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 100, -1));
 
         jLabel2.setText("Numero de Cédula:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
@@ -76,19 +95,23 @@ public class CrearCuenta extends javax.swing.JFrame {
         jLabel3.setText("Tipo de Cuenta: ");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Ahorros", "Cuenta Corriente" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jCueTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cuenta Ahorros", "Cuenta Corriente" }));
+        jCueTipo.setEnabled(false);
+        jCueTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jCueTipoActionPerformed(evt);
             }
         });
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, -1, -1));
+        jPanel1.add(jCueTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, -1, -1));
 
         jLabel4.setText("Depósito Inicial");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 80, -1));
+
+        jCueDep.setEnabled(false);
+        jPanel1.add(jCueDep, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 80, -1));
 
         jButton2.setText("Crear");
+        jButton2.setEnabled(false);
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 330, 160));
@@ -162,22 +185,23 @@ public class CrearCuenta extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 290, 140, 70));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 290, 350, 110));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jCueCedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCueCedActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jCueCedActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void jCueTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCueTipoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_jCueTipoActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
@@ -223,7 +247,9 @@ public class CrearCuenta extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JTextField jCueCed;
+    private javax.swing.JTextField jCueDep;
+    private javax.swing.JComboBox<String> jCueTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -235,8 +261,6 @@ public class CrearCuenta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
