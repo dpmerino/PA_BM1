@@ -8,6 +8,7 @@ package interfaz;
 import clases.Cliente;
 import clases.Cuenta;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import logica.Imp_Cli;
 import logica.Imp_Cuentas;
 import logica.ManCliente;
@@ -18,6 +19,7 @@ import logica.ManCuenta;
  * @author diegomerino
  */
 public class CrearCuenta extends javax.swing.JFrame {
+
     Imp_Cli objImpCli = new Imp_Cli();
     Imp_Cuentas objImpCue = new Imp_Cuentas();
     ManCliente objManCli = new ManCliente();
@@ -26,15 +28,15 @@ public class CrearCuenta extends javax.swing.JFrame {
     Cuenta objCue = new Cuenta();
     ArrayList<Cuenta> ArrayCuentas = new ArrayList<Cuenta>();
     ArrayList<Cliente> ArrayClientes = new ArrayList<Cliente>();
-    
+
     /**
      * Creates new form CrearCuenta
      */
     public CrearCuenta() {
-      ArrayClientes = objImpCli.ImportarClientes();
-      ArrayCuentas = objImpCue.ImportarCuentas();
+        ArrayClientes = objImpCli.ImportarClientes();
+        ArrayCuentas = objImpCue.ImportarCuentas();
         initComponents();
-        
+
     }
 
     /**
@@ -196,7 +198,20 @@ public class CrearCuenta extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
+        objCli = this.objManCli.BuscarCliente(ArrayClientes, this.jCueCed.getText());
+        try {
+            if (objCli.getCedula().equals(this.jCueCed.getText())) {
+                this.jCueTipo.setEnabled(true);
+                this.jCueDep.setEnabled(true);
+            }
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(rootPane, "Cliente no existe\n"
+                    + "¿Desea Crearlo?");
+            if (JOptionPane.YES_OPTION == 0) {
+                CrearCliente objCreCli = new CrearCliente();
+                objCreCli.setVisible(true);
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jCueTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCueTipoActionPerformed
