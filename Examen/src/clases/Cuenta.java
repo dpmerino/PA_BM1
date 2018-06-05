@@ -16,6 +16,7 @@ public class Cuenta {
     int tipo; //1 para cuenta ahorros y 2 para cuenta corriente
     double saldo;
     Cliente cliente;
+    ArrayList<Cliente> ArrayClientes;
     Transaccion transacciones;
 
     public String getNumero() {
@@ -58,6 +59,14 @@ public class Cuenta {
         this.transacciones = trancsacciones;
     }
 
+    public ArrayList<Cliente> getArrayClientes() {
+        return ArrayClientes;
+    }
+
+    public void setArrayClientes(ArrayList<Cliente> ArrayClientes) {
+        this.ArrayClientes = ArrayClientes;
+    }
+    
     public Cuenta() {
     }
 
@@ -67,7 +76,14 @@ public class Cuenta {
         this.saldo = saldo;
         this.cliente = cliente;
     }
-
+    
+    public Cuenta(String numero, int tipo, double saldo, ArrayList<Cliente> ArrayClientes){
+        this.numero = numero;
+        this.tipo = tipo;
+        this.saldo = saldo;
+        this.ArrayClientes = ArrayClientes;
+    }
+    
     public Cuenta(String numero, int tipo, double saldo, Cliente cliente, Transaccion transacciones) {
         this.numero = numero;
         this.tipo = tipo;
@@ -75,9 +91,11 @@ public class Cuenta {
         this.cliente = cliente;
         this.transacciones = transacciones;
     }
+
     @Override
     public String toString() {
-        return "Cuenta{" + "numero=" + numero + ", tipo=" + tipo + ", saldo=" + saldo + ", cliente=" + cliente + ", trancsacciones=" + transacciones + '}';
+        return "Cuenta{" + "numero=" + numero + ", tipo=" + tipo + ", saldo=" + saldo + ", ArrayClientes=" + ArrayClientes + '}';
     }
+    
     
 }

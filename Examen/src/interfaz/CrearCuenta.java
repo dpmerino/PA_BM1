@@ -7,7 +7,11 @@ package interfaz;
 
 import clases.Cliente;
 import clases.Cuenta;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Formatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.Imp_Cli;
 import logica.Imp_Cuentas;
@@ -28,6 +32,7 @@ public class CrearCuenta extends javax.swing.JFrame {
     Cuenta objCue = new Cuenta();
     ArrayList<Cuenta> ArrayCuentas = new ArrayList<Cuenta>();
     ArrayList<Cliente> ArrayClientes = new ArrayList<Cliente>();
+    ArrayList<Cliente> objArrCli = new ArrayList<Cliente>();
 
     /**
      * Creates new form CrearCuenta
@@ -57,14 +62,14 @@ public class CrearCuenta extends javax.swing.JFrame {
         jCueTipo = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jCueDep = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        jCueCre = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
+        jCueAgre = new javax.swing.JButton();
+        jUsuCed = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        jUsuGua = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -112,9 +117,14 @@ public class CrearCuenta extends javax.swing.JFrame {
         jCueDep.setEnabled(false);
         jPanel1.add(jCueDep, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 80, -1));
 
-        jButton2.setText("Crear");
-        jButton2.setEnabled(false);
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, -1, -1));
+        jCueCre.setText("Crear");
+        jCueCre.setEnabled(false);
+        jCueCre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCueCreActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jCueCre, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 330, 160));
 
@@ -124,18 +134,30 @@ public class CrearCuenta extends javax.swing.JFrame {
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
 
-        jButton4.setText("Agregar Usuario");
-
-        jTextField3.setText("jTextField3");
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        jCueAgre.setText("Agregar Usuario");
+        jCueAgre.setEnabled(false);
+        jCueAgre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                jCueAgreActionPerformed(evt);
+            }
+        });
+
+        jUsuCed.setEnabled(false);
+        jUsuCed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jUsuCedActionPerformed(evt);
             }
         });
 
         jLabel5.setText("# Cédula");
 
-        jButton3.setText("Guardar");
+        jUsuGua.setText("Guardar");
+        jUsuGua.setEnabled(false);
+        jUsuGua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jUsuGuaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -145,12 +167,12 @@ public class CrearCuenta extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4))
+                        .addComponent(jCueAgre))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jUsuGua, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jUsuCed))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel5Layout.createSequentialGroup()
@@ -162,13 +184,13 @@ public class CrearCuenta extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton4)
+                .addComponent(jCueAgre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jUsuCed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                .addComponent(jUsuGua)
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -187,7 +209,7 @@ public class CrearCuenta extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 290, 350, 110));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 290, 450, 110));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -203,6 +225,7 @@ public class CrearCuenta extends javax.swing.JFrame {
             if (objCli.getCedula().equals(this.jCueCed.getText())) {
                 this.jCueTipo.setEnabled(true);
                 this.jCueDep.setEnabled(true);
+                this.jCueCre.setEnabled(true);
             }
         } catch (Exception e) {
             JOptionPane.showConfirmDialog(rootPane, "Cliente no existe\n"
@@ -218,9 +241,54 @@ public class CrearCuenta extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCueTipoActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void jUsuCedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUsuCedActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_jUsuCedActionPerformed
+
+    private void jCueCreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCueCreActionPerformed
+        // TODO add your handling code here:
+        Formatter fmt = new Formatter();
+        int numCue = ArrayCuentas.size();
+        fmt.format("%08d", numCue);
+        String cuenta= String.valueOf(numCue);
+        int tipo =0;
+        if (this.jCueTipo.getSelectedIndex()==0) {
+            tipo = 1;
+        }else if (this.jCueTipo.getSelectedIndex()==1){
+            tipo = 2;
+        }
+        objArrCli.add(objCli);
+        objCue = objManCue.CrearCuenta(cuenta, tipo, Double.parseDouble(this.jCueDep.getText()), objArrCli);
+        ArrayCuentas.add(objCue);
+        System.out.println(objCue.toString());
+        this.jCueAgre.setEnabled(true);
+//        try {
+//            objManCue.GuardarCuentaClientes(ArrayCuentas);
+//        } catch (IOException ex) {
+//            Logger.getLogger(CrearCuenta.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            this.jCueAgre.setEnabled(true);
+//        }
+    }//GEN-LAST:event_jCueCreActionPerformed
+
+    private void jUsuGuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUsuGuaActionPerformed
+        // TODO add your handling code here:
+        objCli = objManCli.BuscarCliente(ArrayClientes, this.jUsuCed.getText());
+        try{
+            objArrCli.add(objCli);
+            System.out.println(objCue.toString());
+        } catch (Exception e){
+            
+        } finally{
+            
+        }
+    }//GEN-LAST:event_jUsuGuaActionPerformed
+
+    private void jCueAgreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCueAgreActionPerformed
+        // TODO add your handling code here:
+        this.jUsuCed.setEnabled(true);
+        this.jUsuGua.setEnabled(true);
+    }//GEN-LAST:event_jCueAgreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -259,10 +327,9 @@ public class CrearCuenta extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jCueAgre;
     private javax.swing.JTextField jCueCed;
+    private javax.swing.JButton jCueCre;
     private javax.swing.JTextField jCueDep;
     private javax.swing.JComboBox<String> jCueTipo;
     private javax.swing.JLabel jLabel1;
@@ -276,6 +343,7 @@ public class CrearCuenta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jUsuCed;
+    private javax.swing.JButton jUsuGua;
     // End of variables declaration//GEN-END:variables
 }

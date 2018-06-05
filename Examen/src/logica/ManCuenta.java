@@ -23,6 +23,10 @@ public class ManCuenta {
         Cuenta objCue = new Cuenta(numero, tipo, saldo, cliente);
         return objCue;
     }
+    public Cuenta CrearCuenta(String numero, int tipo, double saldo, ArrayList<Cliente> ArrayClientes){
+        Cuenta objCue = new Cuenta(numero, tipo, saldo, ArrayClientes);
+        return objCue;
+    }
 
     public Cuenta BuscarCuenta(ArrayList<Cuenta> ArrayCuentas, String numero) {
         // LOS PARAMETROS SON EL ARRAY CON LOS CLIENTES Y UNA CEDULA PARA BUSCAR EL CLIENTE
@@ -37,8 +41,10 @@ public class ManCuenta {
         return objAux; //RETORNARA UN objeto VACIO EN EL CASO DE NO EXISTIR
     }
     public Cuenta AnhiadirPropietarios (Cuenta cuenta, Cliente cliente){
-        
-        return cuenta;
+        Cuenta objAux = new Cuenta();
+        objAux = cuenta;
+        objAux.getArrayClientes().add(cliente);
+        return objAux;
     }
     public Cuenta DepositoCuenta(Cuenta cuenta, double deposito) {
         Cuenta objAux = new Cuenta();
@@ -95,6 +101,23 @@ public class ManCuenta {
             bw.write(objCue.getTipo() + ",");
             bw.write(objCue.getSaldo() + ",");
             bw.write(objCue.getCliente().getCedula() + "\n");
+        }
+        bw.close();
+        fw.close();
+    }
+    public static void GuardarCuentaClientes(ArrayList<Cuenta> ArrayCuentas) throws IOException {
+        File f = new File("Archivos/cuentas.txt");
+        FileWriter fw = new FileWriter(f, false);
+        BufferedWriter bw = new BufferedWriter(fw);
+        for (Cuenta objCue : ArrayCuentas) {
+            bw.write(objCue.getNumero() + ",");
+            bw.write(objCue.getTipo() + ",");
+            bw.write(objCue.getSaldo() + ",");
+            for (int i=0; i < objCue.getArrayClientes().size(); i++){
+                bw.write(objCue.getArrayClientes().get(i).getCedula() + ",");
+            }
+            bw.write("\n");
+            //bw.write(objCue.getCliente().getCedula() + "\n");
         }
         bw.close();
         fw.close();
